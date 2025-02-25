@@ -1,21 +1,20 @@
 <div class="searchcont">
     <input type="text" id="bigsearch">
     <button class="bigsearch" onclick="document.getElementById('search').value = document.getElementById('bigsearch').value; changePage('search')">Search</button>
-    <p class="advice">Search for an article or topic in either English or Irish</p>
+    <p class="advice">Search for an article or topic in English</p>
 </div>
-<div class="mained left">
+<div class="mained">
     <div class="desc">
         <h1>Welcome</h1>
         <p>
-            Welcome to the on line learning resource for Irish (in beta). </br>
-            The aim of the site is to provide users of the language with free, easy-to-use access to notes, explanations and demonstrations to do with learning the Irish language. Designed for use by students.</br>
+            Welcome to the unofficial archive for every chemistry note required on the leaving cert course ever.</br>
+            The aim of the site is to provide people with free, easy-to-use access to notes, explanations and demonstrations to do with preparing for the leaving cert Chemistry exam.</br>
             <a onclick="changePage('articles')">Get the full list of articles</a>
         </p>
     </div>
     <div class="desc">
-        <h2>Starred Articles</h2>
-        <div class="starred" id="starred">
-            No Articles saved.... for now
+        <h2>Topics</h2>
+        <div id="topics">
         </div>
     </div>
     <div class="desc">
@@ -23,23 +22,5 @@
         <p>
             Any Feedback is welcome. It is recommended to create an issue through the <a href="https://github.com/flippont/notai">Github Repo</a>
         </p>
-    </div>
-</div>
-<div class="sidebar right">
-    <div class="desc">
-        <h2>Font Size</h2>
-        <input type="radio" id="smallfont" name="font_size" value="small">
-        <label for="smallfont">Small</label><br>
-        <input type="radio" id="mediumfont" name="font_size" value="medium">
-        <label for="mediumfont">Medium</label><br>
-        <input type="radio" id="largefont" name="font_size" value="large">
-        <label for="largefont">Large</label>
-        <h2>Theme</h2>
-        <input type="radio" id="system" name="theme" value="system">
-        <label for="system">System</label><br>
-        <input type="radio" id="dark" name="theme" value="dark">
-        <label for="dark">Dark</label><br>
-        <input type="radio" id="light" name="theme" value="light">
-        <label for="light">Light</label><br>
     </div>
 </div>
