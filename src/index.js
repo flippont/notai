@@ -1,4 +1,4 @@
-
+  
 window.container = document.getElementById('pagebody')
 window.search = document.getElementById('search')
 window.contents = document.getElementById('contents')
@@ -26,7 +26,6 @@ let filterCondition = {
     subjects: 'all',
     level: 'all',
     filterread: false,
-    filtertest: false,
     reverse: false
 }
 
@@ -41,32 +40,11 @@ let tabItems = [
     }
 ]
 
-let tag_names = {
-    h1: 1,
-    h2: 1,
-    h3: 1,
-    h4: 1,
-    h5: 1,
-    h6: 1
-};
-
-function walk(root) {
-    if (root.nodeType === 1 && root.nodeName !== 'script') {
-        if (tag_names.hasOwnProperty(root.nodeName.toLowerCase())) {
-            headings.push({ heading: root, content: root.nextElementSibling });
-        } else {
-            for (let i = 0; i < root.childNodes.length; i++) {
-                walk(root.childNodes[i]);
-            }
-        }
-    }
-}
-
-fetch('https://flippont.github.io/redact/src/data.json')
+fetch('https://flippont.github.io/notai/src/data.json')
     .then((response) => response.json())
     .then((json) => {
         data = json;
-        fetch('https://flippont.github.io/redact/src/paths.json')
+        fetch('https://flippont.github.io/notai/src/paths.json')
             .then((response) => response.json())
             .then((json) => {
                 paths = json;
@@ -78,26 +56,30 @@ let html = {
     'home': {
         url: 'home',
         onenter: () => {
-            for(let i=0; i<5;i++) {
-                document.getElementById('recent').appendChild(drawCard(data[Math.floor(Math.random()*data.length)]))
-            }
-            if(saved.length > 0) {
-                for(let i=0; i<saved.length; i++) {
-                    for(let j=0; j<data.length; j++) {
-                        if(data[j].title == saved[i]) {
-                            document.getElementById('starred').appendChild(drawCard(data[j]))
-                        }
-                    }
+            document.getElementById('bigsearch').onkeydown = (event) => {
+                if (event.key == 'Enter') {
+                    window.search.value = document.getElementById('bigsearch').value;
+                    changePage('search')
                 }
-            } else {
-                let nonecontainer = document.createElement('div')
-                nonecontainer.className = 'notFound'
-                nonecontainer.innerHTML = 'No articles saved.... Yet'
-                document.getElementById('starred').appendChild(nonecontainer)
             }
-            for(let i=0; i<5; i++) {
-                document.getElementById('favs').appendChild(drawCard(data[data.length - (i + 1)]))
-            }        
+            for(let i=0; i<paths.length; i++) {
+                console.log(paths[i])
+                let contents = document.createElement('div')
+                let popup = document.createElement('div')
+                popup.className = 'tooltip'
+                popup.innerHTML = paths[i].name
+                console.log(paths[i])
+                contents.className = 'coloured';
+                contents.style.background = paths[i].colour;
+                contents.innerHTML = paths[i].name[0]
+                contents.appendChild(popup)
+                contents.onclick = () => {
+                    currentPath = [paths[i].name]
+                    changePage('list')
+                }
+                document.getElementById('topics').appendChild(contents)
+            }
+
         }
     },
     'list': {
@@ -139,7 +121,7 @@ let html = {
                 contents.onclick = () => {
                     currentPage = { url: data[i].url, title: data[i].title }
                     currentPath = data[i].path
-                    changePage('article')
+                    changePage('article', true)
                 }
                 document.getElementById('articles').appendChild(contents)
             }
@@ -159,32 +141,8 @@ let html = {
             findArticle(window.search.value)
         }
     },
-    'test': {
-        url: 'test',
-        onenter: () => {
-            let url = new URL(location);
-            if (url.searchParams.get('p')) {
-                currentPath = url.searchParams.get('p').split(',')
-            }
-            fetch('https://flippont.github.io/redact/src/quiz/' + currentPath.join('/').toLowerCase() + '/' + currentPage.url + '.html')
-                .then((response) => response.text())
-                .then((text) => {
-                    document.getElementById('test').innerHTML = text
-                    let total = Array.from(container.getElementsByClassName('questions'))
-                    for (let i = 0; i < total.length; i++) {
-                        var radiosName = document.getElementsByName('answer-' + i);
-                        for (let j = 0; j < radiosName.length; j++) {
-                            radiosName[j].onclick = () => {
-                                updateProgress(i, total.length)
-                            }
-                        }
-                    }
-                    updateProgress(-1, total.length)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-        }
+    'starred': {
+        url: 'starred'
     },
     'article': {
         url: 'article',
@@ -193,7 +151,7 @@ let html = {
             if (url.searchParams.get('p')) {
                 currentPath = url.searchParams.get('p').split(',')
             }
-            fetch('https://flippont.github.io/redact/src/pages/' + currentPath.join('/').toLowerCase() + '/' + currentPage.url + '.html')
+            fetch('https://flippont.github.io/notai/src/pages/' + currentPath.join('/').toLowerCase() + '/' + currentPage.url + '.html')
                 .then((response) => response.text())
                 .then((text) => {
                     document.getElementById('article').innerHTML = text
@@ -203,69 +161,11 @@ let html = {
                     }
 
                     document.body.style.backgroundImage = 'linear-gradient(#e66465, #9198e5);'
-                    headings = []
-                    walk(document.getElementById('article'));
                     document.getElementById('title').innerHTML = currentPage.title;
                     document.getElementById('star').style.fill = saved.includes(currentPage.title) ? '#e9ba26' : '#ccc';
                     document.getElementById('star').onclick = () => {
                         saveArticle(document.getElementById('star'), currentPage.title)
                     }
-                    document.getElementById('article').innerHTML = ''
-                    if (headings.length > 1) {
-                        window.contents.innerHTML = '<h2>Table of Contents</h2>'
-                        let container = document.createElement('div')
-                        for (let i = 0; i < headings.length; i++) {
-                            let box = document.createElement('div')
-                            box.className = 'box'
-                            let boxHead = document.createElement('div')
-                            boxHead.className = 'boxTop'
-                            boxHead.innerHTML = '<h2 id=' + headings[i].heading.innerHTML.replace(/\s/g, '-').toLowerCase() + '>' + headings[i].heading.innerHTML + '</h2>';
-                            let boxBody = document.createElement('div')
-                            boxBody.className = 'boxBottom'
-                            boxBody.innerHTML = headings[i].content.innerHTML;
-                            box.appendChild(boxHead);
-                            box.appendChild(boxBody);
-                            document.getElementById('article').appendChild(box)
-                            let header = document.createElement('button')
-                            header.className = 'contentsButton'
-                            header.innerHTML =  headings[i].heading.innerHTML.replace(':', '');
-                            header.onclick = (() => { 
-                                window.scrollTo(0, document.getElementById(headings[i].heading.innerHTML.replace(/\s/g, '-').toLowerCase()).offsetTop - 10)
-                            })
-                            container.appendChild(header)
-                        }
-                        window.contents.appendChild(container)
-                    } else {
-                        let box = document.createElement('div')
-                        box.className = 'box'
-                        let boxBody = document.createElement('div')
-                        boxBody.className = 'boxBottom'
-                        boxBody.innerHTML = text;
-                        box.appendChild(boxBody);
-                        document.getElementById('article').appendChild(box)
-                        document.getElementById('contentscont').hidden = 'true'
-                    }
-                    fetch('https://flippont.github.io/redact/src/quiz/' + currentPath.join('/').toLowerCase() + '/' + currentPage.url + '.html')
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Not 2xx response", { cause: response });
-                            } else {
-                                response.text()
-                            }
-                        })
-                        .then((text) => {
-                            let button = document.createElement('button');
-                            button.innerHTML = '<h2>Take Test</h2>'
-                            button.className = 'testBtn'
-                            button.onclick = (() => {
-                                changePage('test')
-                            })
-                            document.getElementById('extras').appendChild(button)
-                        })
-                        .catch((error) => {
-                            console.log(error)
-                        })
-
                 })
         }
     },
@@ -297,70 +197,6 @@ let state = {
     page: 'home',
     current: ''
 };
-function resetURL() {
-    currentPage = []
-    currentPath = []
-    const url = new URL(location);
-    if (url.searchParams.get('l')) {
-        url.searchParams.delete('l')
-    }
-    if (url.searchParams.get('p')) {
-        url.searchParams.delete('p')
-    }
-    if (url.searchParams.get('q')) {
-        url.searchParams.delete('q')
-    }
-    if (url.searchParams.get('n')) {
-        url.searchParams.delete('n')
-    }
-    history.replaceState({}, null, url);
-}
-
-function getResults() {
-    let amountCorrect = 0;
-    let container = document.getElementById('test');
-    let total = Array.from(container.getElementsByClassName('questions'))
-    document.getElementsByClassName('submit')[0].disabled = true
-    for (let i = 0; i < total.length; i++) {
-        var radiosName = document.getElementsByName('answer-' + i);
-        for (let j = 0; j < radiosName.length; j++) {
-            let radiosValue = radiosName[j];
-            radiosValue.disabled = true
-            if (radiosValue.checked) {
-                if (radiosValue.value == 'correct') {
-                    amountCorrect++;
-                    document.getElementById('question-' + i).style.background = '#90be6d6a';
-                } else {
-                    document.getElementById('question-' + i).style.background = '#ef476f6a';
-                }
-            } else {
-                if (radiosValue.value == 'correct') {
-                    radiosValue.style.boxShadow = '0pt 0pt 0pt 10pt #1b9aaa inset'
-                }
-            }
-        }
-    }
-
-    document.getElementById('results').innerHTML =
-        'Score: ' + amountCorrect + '/' + total.length;
-
-}
-function reset() {
-    let container = document.getElementById('test');
-    let total = Array.from(container.getElementsByClassName('questions'))
-    document.getElementsByClassName('submit')[0].disabled = false
-    checkArray = [-1]
-    updateProgress(-1, total.length)
-    for (let i = 0; i < total.length; i++) {
-        var radiosName = document.getElementsByName('answer-' + i);
-        for (let j = 0; j < radiosName.length; j++) {
-            radiosName[j].checked = false
-            radiosName[j].disabled = false
-            radiosName[j].style.boxShadow = 'none'
-            document.getElementById('question-' + i).style.background = 'var(--element)';
-        }
-    }
-}
 
 function findArticle(term) {
     if (!document.getElementById('container')) return
@@ -369,7 +205,7 @@ function findArticle(term) {
     for (let i = 0; i < data.length; i++) {
         let container = data[i].title + data[i].excerpt + data[i].path[0];
         if (container.toLowerCase().includes(term.toLowerCase())) {
-            if(filterCondition.filterread && completed.includes(data[i].title) || filterCondition.filtertest && data[i].test == undefined) {
+            if(filterCondition.filterread && completed.includes(data[i].title)) {
             } else {
                 if(filterCondition.subjects != 'all' || filterCondition.level != 'all') {
                     let checkedSubject = false;
@@ -508,19 +344,21 @@ function drawCard(data) {
     articleItem.tabIndex = '0'
     articleItem.onkeyup = (event) => {
         if (event.key == 'Enter') {
-            currentPage = { url: data.url, title: data.title }
+            currentPage = { url: data.url, title: data.title, test: data.test || false }
             currentPath = data.path
             changePage('article')
         }
     }
     articleItem.onclick = () => {
-        currentPage = { url: data.url, title: data.title }
+        currentPage = { url: data.url, title: data.title, test: data.test || false}
         currentPath = data.path
         changePage('article')
     }
     colourItem.onclick = () => {
-        currentPath = data.path
-        changePage('list')
+        if(currentPath != data.path) {
+            currentPath = data.path
+            changePage('list')   
+        }
     }
     mainElement.appendChild(colourItem)
     mainElement.appendChild(articleItem)
@@ -575,7 +413,7 @@ function renderLists(path, popstate = false) {
     }
 
     let list = [];
-    document.getElementById('extras').innerHTML = `<a onclick="resetURL(); changePage('list')">Home</a>`;
+    document.getElementById('extras').innerHTML = `<a onclick="changePage('list', false, true)">Home</a>`;
     for (let i = 0; i < currentPath.length; i++) {
         let between = document.createElement('span');
         between.innerHTML = ' / ';
@@ -587,15 +425,17 @@ function renderLists(path, popstate = false) {
         let calc = findPath(list, paths, 0, [], 'subs');
         let calcName = JSON.stringify(list);
         element.tabIndex = '0'
-        element.onclick = () => {
-            currentPath = JSON.parse(calcName);
-            console.log(calcName, calc[calc.length - 1])
-            renderLists(calc[calc.length - 1]);
-        }
-        element.onkeydown = (event) => {
-            if (event.key == 'Enter') {
+        if(i != currentPath.length - 1) {
+            element.onclick = () => {
                 currentPath = JSON.parse(calcName);
+                console.log(calcName, calc[calc.length - 1])
                 renderLists(calc[calc.length - 1]);
+            }
+            element.onkeydown = (event) => {
+                if (event.key == 'Enter') {
+                    currentPath = JSON.parse(calcName);
+                    renderLists(calc[calc.length - 1]);
+                }
             }
         }
         document.getElementById('extras').appendChild(element);
@@ -657,13 +497,30 @@ function renderLists(path, popstate = false) {
 let screen = 'home'
 let previousScreen = screen
 
-function changePage(newScene, popstate = false) {
+function changePage(newScene, popstate = false, reset = false) {
     window.scrollTo(0, 0)
     window.contents.innerHTML = ''
 
+    if(reset) {
+        currentPage = []
+        currentPath = []
+        const url = new URL(location);
+        if (url.searchParams.get('l')) {
+            url.searchParams.delete('l')
+        }
+        if (url.searchParams.get('p')) {
+            url.searchParams.delete('p')
+        }
+        if (url.searchParams.get('q')) {
+            url.searchParams.delete('q')
+        }
+        if (url.searchParams.get('n')) {
+            url.searchParams.delete('n')
+        }
+    }
+
     if (!popstate) {
         state.page = newScene;
-        console.log(state.page)
         const url = new URL(location);
         url.searchParams.set('l', newScene);
         if (newScene == 'search') {
@@ -673,7 +530,7 @@ function changePage(newScene, popstate = false) {
             state.current = currentPage
             console.log(currentPage)
             url.searchParams.set('p', currentPath.join(','))
-            url.searchParams.set('n', currentPage.url + ',' + currentPage.title)
+            url.searchParams.set('n', currentPage.url + '/' + currentPage.title + '/' + currentPage.test)
         } else if (newScene == 'list') {
             state.path = currentPath
             url.searchParams.set('p', currentPath.join(','))
@@ -684,7 +541,7 @@ function changePage(newScene, popstate = false) {
         history.pushState(state, null, url);
     }
     if (html[newScene] && html[newScene].url) {
-        fetch('https://flippont.github.io/redact/src/components/' + html[newScene].url + '.html')
+        fetch('https://flippont.github.io/notai/src/components/' + html[newScene].url + '.html')
             .then((response) => response.text())
             .then((text) => {
                 window.container.innerHTML = text
@@ -708,13 +565,13 @@ init = () => {
         window.search.value = url.searchParams.get('q');
     }
     if (url.searchParams.get('n')) {
-        currentPage = { url: url.searchParams.get('n').split(',')[0], title: url.searchParams.get('n').split(',')[1] }
+        currentPage = { url: url.searchParams.get('n').split('/')[0], title: url.searchParams.get('n').split('/')[1], test: url.searchParams.get('n').split('/')[2]}
         console.log(currentPage)
     }
     if (url.searchParams.get('l')) {
         changePage(url.searchParams.get('l'), true)
     } else {
-        changePage('home', true)
+        changePage('home', false)
     }
 }
 

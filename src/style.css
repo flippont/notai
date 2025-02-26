@@ -1,354 +1,385 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
-        html {
-            scroll-behavior: smooth;
-        }
-        body, p {
-            font-size: 13px;
-            font-family: "Inter";
-            text-align: left;
-            background: #f9f9f9;
-            margin: 0 auto;
-            height: 100%;
-        }
-        h1 {
-            margin: 0px;
-            padding: 0px;
-        }
-        h2 {
-            color: #aaa;
-            text-transform: uppercase;
-            margin: 20px 0 10px 0;
-            padding: 0 0 6px 0;
-            font-size: 13px;
-        }
-        a {
-            cursor: pointer;
-            text-decoration: none;
-            color: #000;
-            border-bottom: 1px dashed #000;
-        }
-        a:hover {
-            color: #ddd;
-            border-bottom: 1px dashed #ddd;
-        }
-        #main {
-            padding: 8px;
-            margin: 0px auto;
-            max-width: 950px;
-            width: calc(100% - 16px);
-            min-height: 100vh;
-            text-align: left;
-        }
-        #header {
-            position: relative;
-            width: 100%;
-            height: 72px;            
-            margin: 0px;
-            border-bottom: 1px solid #ddd;
-            background: #eee;
-        }
-        #footer {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-
-            width: 100%;
-            height: 72px;            
-            margin: 0px;
-            border-top: 1px solid #ddd;
-            background: #eee;
-        }
-        #homelink {
-            float: left;
-            margin: 0;
-            padding: 0;
-            font-size: 20px;
-            border-bottom: 0;
-        }
-        #nav {
-            text-align: right;
-            position: absolute;
-            list-style: none;
-            max-width: 950px;
-            width: calc(100% - 16px);
-            left: 50%;
-            transform: translate(-50%, 0);
-            height: 72px;
-            line-height: 72px;
-            padding: 0px;
-            padding-left: 8px;
-            padding-right: 8px;
-            margin: 0px;
-        }
-        #sidebar {
-            float: left;
-            width: 218px;
-            margin-top: 20px;
-        }
-        #pagebody {
-            margin-left: 52px;
-            float: left;
-            text-align: left;
-            width: calc(100% - 270px);
-            margin-bottom: 20px;
-        }
-        h2 a {
-            color: #fff;
-            font-weight: bold;
-            text-decoration: none;
-            border-bottom: none;
-        }
-        h2 a:hover {
-            border-bottom: none;
-        }
-        #nav li {
-            display: inline;
-        }
-        #nav li a{
-            border-bottom: none;
-            padding: 2px 4px;
-        }
-        #nav a {
-            margin: auto 0px;
-            color: #aaa;
-        }
-        #nav a:hover {
-            color: #555;
-            cursor: pointer;
-        }
-        #search {
-            background: #eee;
-            border: 1px solid #ddd;
-            height: 20px;
-            padding: 5px 15px;
-            width: 185px;
-            outline: none;
-            border-radius: 3px;
-        }
-        #title {
-            margin-top: 20px;
-            font-size: 25px;
-        }
-        #article {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
-        #article p {
-            font-size: 15px;
-        }
-        li {
-            font-size: 14px;
-        }
-        #search:hover {
-            border: 1px solid #aaa;
-        }
-        #open {
-            border: 1px solid #ddd;
-            border-bottom: none;
-            height: 30px;
-            padding: 5px 15px;
-            width: 215px;
-            text-align: left;
-            cursor: pointer;
-            border-radius: 3px 3px 0px 0px;
-        }
-        #github {
-            border: 1px solid #ddd;
-            border-top: none;
-            height: 30px;
-            padding: 5px 15px;
-            cursor: pointer;
-            border-radius: 0px 0px 3px 3px;
-            width: 215px;
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        .colouring,.coloured {
-            float: left;
-            width: 50px;
-            height: 60px;
-            color: #FFF;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 3px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .coloured {
-            margin: 2px;
-            border: 1px solid #eee;
-        }
-        .coloured .tooltip {
-            width: fit-content;
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            border-radius: 3px;
-            padding: 5px;
-            margin-top: -100px;
-            pointer-events: none;
-            transition: 0.25s;
-            opacity: 0;
-            /* Position the tooltip */
-            position: absolute;
-            z-index: 1;
-        }
-        .coloured:hover .tooltip {
-            opacity: 1;
-        }
-        .coloured .tooltip::after {
-            content: " ";
-            position: absolute;
-            top: 100%; /* At the bottom of the tooltip */
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #000 transparent transparent transparent;
-        }
-        .colouring:hover {
-            opacity: 0.5;
-        }
-        .floater {
-            margin-bottom: 20px;
-            margin-left: 60px;
-            cursor: pointer;
-            padding: 20px;
-            background-color: #eee;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 13px;
-        }
-        .floater:hover {
-            border: 1px solid #aaa;
-        }
-        .floater h1 {
-            font-size: 20px;
-        }
-        .star {
-            float: right;
-            cursor: pointer;
-            margin-top: 30px;
-        }
-        input[type="button"]:hover, .contentsButton:hover {
-            background: #ddd;
-        }
-        .list {
-            height: 20px;
-            border: 1px solid #ddd;
-            background: #eee;
-            margin-bottom: 7px;
-            border-radius: 3px;
-            cursor: pointer;
-            display: flex;
-            padding: 10px;
-            align-items: center;
-        }
-        .list .colouring {
-            height: 30px;
-            width: 30px;
-            border-radius: 30px;
-            margin-right: 15px;
-        }
-        .table {
-            overflow: auto;
-            max-width: 100%;
-        }
-        .contentsButton {
-            border: 1px solid #ddd;
-            border-bottom: none;
-            border-top: none;
-            height: auto;
-            padding: 5px 15px;
-            width: 215px;
-            text-align: left;
-            cursor: pointer;
-        }
-        .contentsButton:first-child {
-            border-top: 1px solid #ddd;
-            border-radius: 3px 3px 0px 0px;
-        }
-        .contentsButton:last-child {
-            border-bottom: 1px solid #ddd;
-            border-radius: 0px 0px 3px 3px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        td {
-            border: 1px solid #aaa;
-            padding: 10px;
-        }
-        th {
-            border: 1px solid #aaa;
-            background: #eee;
-            padding: 10px;
-        }
-        .list:hover {
-            border: 1px solid #aaa;
-        }
-        .notFound, .desc {
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: #eee;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 13px;
-        }
-        .desc {
-            text-align: left;
-        }
-        iframe {
-            border: none;
-            border-radius: 3px;
-            width: 100%;
-        }
-        .quote {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            padding: 20px;
-            background-color: #eee;
-            text-align: center;
-            border-radius: 3px;
-            font-size: 13px;
-        }
-        #sortby { 
-            background: #eee;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            float: right;
-            padding: 5px;
-            margin-top: -10px;
-            cursor: pointer;
-        }
-        #sortby:hover {
-            border: 1px solid #aaa;
-        }
-        @media only screen and (max-width: 600px) {
-            #sidebar {
-                width: 100%;
-                clear: both;
-            }
-            #search {
-                width: calc(100% - 30px);
-            }
-            #pagebody {
-                width: 100%;
-                margin-left: 0px;
-                clear: both;
-            }
-            #open, #github, #intro {
-                display: none;
-            }
-            .contentsButton {
-                width: 100%;
-            }
-        }
+html {
+    scroll-behavior: smooth;
+}
+body, p {
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    background: #f9f9f9;
+    margin: 0 auto;
+    height: 100%;
+}
+h1 {
+    margin: 0px;
+    padding: 0px;
+}
+h2 {
+    color: #aaa;
+    text-transform: uppercase;
+    margin: 20px 0 10px 0;
+    padding: 0 0 6px 0;
+    font-size: 13px;
+}
+button {
+    font-family: Arial, Helvetica, sans-serif;
+}
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+    border-bottom: 1px dashed #000;
+}
+a:hover {
+    color: #aaa;
+    border-bottom: 1px dashed #aaa;
+}
+#topics {
+    width: 100%;
+    min-height: 60px;
+    height: 100%;
+    box-sizing: border-box;
+}
+#main {
+    padding: 8px;
+    margin: 0px auto;
+    max-width: 950px;
+    width: calc(100% - 16px);
+    min-height: calc(100vh - 166px);
+    text-align: left;
+}
+#header {
+    position: relative;
+    width: 100%;
+    height: 72px;            
+    margin: 0px;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+}
+#footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 72px;            
+    margin: 0px;
+    border-top: 1px solid #ddd;
+    background: #eee;
+}
+#homelink {
+    float: left;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    border-bottom: 0;
+}
+.contentsButton {
+    border: none;
+    background: #f9f9f9;
+    width: 100%;
+    padding-left: 0px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    margin-bottom: 10px;
+}
+#nav {
+    text-align: right;
+    position: absolute;
+    list-style: none;
+    max-width: 950px;
+    width: calc(100% - 16px);
+    left: 50%;
+    transform: translate(-50%, 0);
+    height: 72px;
+    line-height: 72px;
+    padding: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin: 0px;
+}
+.sidebar {
+    width: 218px;
+    align-self: start;
+    top: 20px;
+}
+.mained {
+    margin-left: 0px;
+    flex-grow: 999;
+    flex-basis: 0;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+#sidebar {
+    width: 218px;
+    position: sticky;
+    flex-grow: 1;
+    align-self: start;
+    top: 20px;
+    float: left;
+}
+#pagebody {
+    margin-left: 0px;
+    flex-grow: 999;
+    flex-basis: 0;
+    text-align: left;
+    width: calc(100%);
+    margin-bottom: 20px;
+}
+.advice{
+    height: auto;
+    background: #eee;
+    text-align: center;
+}
+.searchcont {
+    height: auto;
+    margin-top: 20px;
+    padding: 50px;
+    margin-bottom: 30px;
+    background: #eee;
+    border: 0;
+}
+.searchcontainer {
+    width: 80%;
+    margin: 0 auto;
+}
+.bigsearch {
+    height: 32px;
+    padding: 5px 15px;
+    cursor: pointer;
+    background: #ddd;
+    float: right;
+    border: 0px;
+}
+#bigsearch {
+    width: calc(100% - 110px);
+    background: #fff;
+    height: 22px;
+    padding: 5px 15px;
+    outline: none;
+    border: 0;
+    color: #000;
+}
+h2 a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: none;
+}
+h2 a:hover {
+    border-bottom: none;
+}
+#nav li {
+    display: inline;
+}
+#nav li a{
+    border-bottom: none;
+    padding: 2px 4px;
+}
+#nav a {
+    margin: auto 0px;
+    color: #aaa;
+}
+#nav a:hover {
+    color: #555;
+    cursor: pointer;
+}
+.github {
+    float: right;
+    margin-top: 25px;
+    fill: #aaa;
+}
+.github:hover {
+    fill: #555;
+}
+#search {
+    background: #ddd;
+    border: 0;
+    height: 20px;
+    padding: 5px 15px;
+    width: 185px;
+    outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 20px;
+    color: #aaa;
+    margin-left: 20px;
+}
+#search:focus {
+    color: #000;
+    background: #fff;
+}
+#title {
+    margin-top: 20px;
+    font-size: 25px;
+}
+#article {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+#article p {
+    font-size: 15px;
+}
+#open {
+    border: 1px solid #ddd;
+    border-bottom: none;
+    height: 30px;
+    padding: 5px 15px;
+    width: 215px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 3px 3px 0px 0px;
+}
+#github {
+    border: 1px solid #ddd;
+    border-top: none;
+    height: 30px;
+    padding: 5px 15px;
+    cursor: pointer;
+    border-radius: 0px 0px 3px 3px;
+    width: 215px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+.colouring,.coloured {
+    float: left;
+    width: 50px;
+    height: 60px;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.coloured {
+    margin: 2px;
+}
+.coloured .tooltip {
+    width: fit-content;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
+    margin-top: -100px;
+    pointer-events: none;
+    transition: 0.25s;
+    opacity: 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+.coloured:hover .tooltip {
+    opacity: 1;
+}
+.coloured .tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+}
+.colouring:hover {
+    opacity: 0.5;
+}
+.floater {
+    margin-bottom: 20px;
+    margin-left: 60px;
+    cursor: pointer;
+    padding: 20px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 13px;
+}
+.floater:hover {
+    border: 1px solid #aaa;
+}
+.floater h1 {
+    font-size: 20px;
+}
+.star {
+    float: right;
+    cursor: pointer;
+    margin-top: 30px;
+}
+.list {
+    height: 20px;
+    background: #eee;
+    margin-bottom: 7px;
+    cursor: pointer;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+}
+.list .colouring {
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    margin-right: 15px;
+}
+.table {
+    overflow: auto;
+    max-width: 100%;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+td {
+    border: 1px solid #aaa;
+    padding: 10px;
+}
+th {
+    border: 1px solid #aaa;
+    background: #eee;
+    padding: 10px;
+}
+.list:hover {
+    background: #ddd;
+}
+.desc {
+    padding-right: 20px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+.desc h1 {
+    margin-bottom: 10px;
+}
+.desc h2 {
+    font-size: 22px;
+    text-transform: none;
+}
+iframe {
+    border: none;
+    border-radius: 3px;
+    width: 100%;
+}
+.quote {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 20px;
+    background-color: #eee;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 13px;
+}
+#sortby { 
+    background: #eee;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    float: right;
+    padding: 5px;
+    margin-top: -10px;
+    cursor: pointer;
+}
+#sortby:hover {
+    border: 1px solid #aaa;
+}
