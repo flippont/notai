@@ -21,10 +21,9 @@ h2 {
     font-size: 13px;
 }
 img{
-    width: 100%;
+    max-height: 500px;
     display: block;
     clear: both;
-    border: 1px solid #000;
     margin: 0 auto;
     text-align: center;
     box-sizing: border-box;

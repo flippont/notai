@@ -4,5 +4,11 @@
         "path": ["Atom"],
         "url": "history",
         "excerpt": "A brief history of the atom."
+    },
+    {
+        "title": "Titrations",
+        "path": ["Acid Base Analysis"],
+        "url": "titrations",
+        "excerpt": "Step by step explanations of titrations"
     }
 ]
